@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+	<person personid="1">
+		<name>xiaohong</name>	
+		<age>18</age>
+		<sex>女</sex>
+		<tel>1123434234123</tel>
+	</person>
+	<person personid="2">
+		<name>xiaoming</name>
+		<age>19</age>
+		<sex>nan</sex>
+		<tel>45656465</tel>
+	</person>
+</xml-body>
