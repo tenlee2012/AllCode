@@ -14,7 +14,6 @@
 #include <errno.h>
 #define BUFSIZE 30
 
-int f1(int a, int b);
 int	errexit(const char *format, ...);
 int passiveSock(const char *service, const char *transport, int qlen);
 int connectSock(const char *host, const char *service, const char *transport );
