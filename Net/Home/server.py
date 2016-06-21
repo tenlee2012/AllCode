@@ -9,7 +9,8 @@ from gevent.server import StreamServer, DatagramServer
 import threading
 from utils import (check_login, check_device_login,
                    check_alarm)
-from config import (alarm_order, back_order, port_tcp, port_udp)
+from config import (alarm_order, back_order, port_tcp,
+                    port_udp, server_address)
 
 from gevent import monkey
 monkey.patch_all()
@@ -23,8 +24,12 @@ def alarm():
     beeps = [beep for beep in ds if beep.devType == "01"]  # 找到beep
     for beep in beeps:
         if(beep.protocol == 'tcp'):
-            print("tcp server send SLXX to {}".format(beep.address))
-            beep.socket.send(alarm_order.encode())
+            try:
+                beep.socket.send(alarm_order.encode())
+                print("tcp server send SLXX to {}Yes".format(beep.address))
+            except:
+                print("tcp server send SLXX to {}No".format(beep.address))
+                ds.remove(beep)
         else:
             print("udp server send SLXX to {}".format(beep.address))
             beep.socket.sendto(alarm_order.encode(), beep.address)
@@ -45,7 +50,7 @@ class TCPServer(StreamServer):
 
     @staticmethod
     def start_server(port):
-        server = TCPServer(("0.0.0.0", port))
+        server = TCPServer((server_address, port))
         print("TCP server start on {} port".format(port))
         server.serve_forever()
 
@@ -77,7 +82,7 @@ class TCPServer(StreamServer):
 class UDPServer(DatagramServer):
     @staticmethod
     def start_server(port):
-        server = UDPServer(("0.0.0.0", port))
+        server = UDPServer((server_address, port))
         print("UDP server start on {} port".format(port))
         server.serve_forever()
 

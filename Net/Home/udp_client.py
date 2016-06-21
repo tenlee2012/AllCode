@@ -4,11 +4,13 @@
 from gevent import socket
 import gevent
 import time
+from config import (alarm_order, port_tcp,
+                    port_udp, server_address)
 
 
 def tcp_sensor():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("192.168.1.198", 9999))
+    s.connect((server_address, port_tcp))
     for data in [b"CI020100XX", b'CS1XX']:
         s.send(data)
         print("sensor receive:{}".format(s.recv(1024).decode('utf-8')))
@@ -18,7 +20,7 @@ def tcp_sensor():
 
 def tcp_beep():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("192.168.1.198", 9999))
+    s.connect((server_address, port_tcp))
 
     for data in [b"CI010100XX", b'CS0XX']:
         s.send(data)
@@ -28,7 +30,7 @@ def tcp_beep():
 
 
 def udp_beep():
-    address = ('localhost', 9999)
+    address = (server_address, port_udp)
     message = "CI010100XX"
     sock = socket.socket(type=socket.SOCK_DGRAM)
     sock.connect(address)
@@ -38,14 +40,14 @@ def udp_beep():
     print('udp_beep#%sgot: %r' % (address, data))
     while(True):
         data, address = sock.recvfrom(1024)  # 接收
-        print('udp_beep#%sgot: %r' % (address, data))
-        if data.decode()[:2] == 'SL':
+        print('udp_beep##%sgot: %r' % (address, data))
+        if data.decode() == alarm_order:
             print("警报警报警报！！！")
             break
 
 
 def udp_sensor():
-    address = ('localhost', 9999)
+    address = (server_address, port_udp)
     message = "CI020100XX"
     sock = socket.socket(type=socket.SOCK_DGRAM)
     sock.connect(address)
@@ -53,7 +55,7 @@ def udp_sensor():
     print('udp_sensor#Send:{}'.format(message))
     data, address = sock.recvfrom(1024)
     print('udp_sensor#%s: got %r' % (address, data))
-    time.sleep(5)
+    time.sleep(3)
     message = "CS1XX\r\n"
     sock.send(message.encode())  # 发送警报
     print('udp_sensor#Send:{}'.format(message))
