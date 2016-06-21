@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # coding=utf-8
 
+"""
+服务器主程序, ./server.py运行即可
+"""
+
 from gevent.server import StreamServer, DatagramServer
 import threading
 from utils import (check_login, check_device_login,
