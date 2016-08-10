@@ -6,7 +6,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="javax.servlet.http.Cookie" %>
-<%@ page import="com.hand.sql.entity.User" %>
+<%@ page import="com.hand.entity.User" %>
 <% User u = (User)request.getAttribute("user"); %>
 <html>
 <head>

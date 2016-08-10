@@ -1,9 +1,8 @@
 package com.hand.servlet;
 
 
-import com.hand.sql.entity.ConnectionFactory;
-import com.hand.sql.entity.User;
-import com.sun.corba.se.spi.orbutil.fsm.Input;
+import com.hand.sql.ConnectionFactory;
+import com.hand.entity.User;
 
 import javax.servlet.ServletContext;
 import java.io.*;

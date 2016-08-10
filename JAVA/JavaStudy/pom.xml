@@ -5,10 +5,6 @@
     <groupId>com.hand</groupId>
     <artifactId>JavaStudy</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>../SpingStudy</module>
-        <module>../NetSocketExam/Exam01</module>
-    </modules>
     <packaging>pom</packaging>
 
     <name>JavaStudy</name>
@@ -49,6 +45,35 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.1</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.6</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4jj</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.21</version>
+        </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

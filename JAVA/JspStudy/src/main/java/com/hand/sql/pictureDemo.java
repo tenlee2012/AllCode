@@ -1,7 +1,5 @@
 package com.hand.sql;
 
-import com.hand.sql.entity.ConnectionFactory;
-
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

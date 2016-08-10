@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hand.mybatis.inter.IUserOperation">
+    <select id="selectUserByID" parameterType="int" resultType="User">
+        select * from `tbl_user` where id = #{id}
+    </select>
+    <select id="selectUsers" parameterType="String" resultMap="resultListUser">
+        select * from `tbl_user` WHERE name like #{name}
+    </select>
+    <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+       insert into tbl_user(name,password,email)values(#{name},#{password},#{email})
+    </insert>
+    <update id="updateUser" parameterType="User">
+        update tbl_user set name=#{name}, password=#{password}, email=#{email} where id=#{id}
+    </update>
+    <delete id="deleteUser" parameterType="int">
+        delete from tbl_user where id=#{id}
+    </delete>
+    <resultMap id="resultListUser" type="User">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+    </resultMap>
+    <!-- User 联合文章进行查询 方法之一的配置 (多对一的方式)
+    用 association 来得到关联的用户，这是多对一的情况，因为所有的文章都是同一个用户的。-->
+    <resultMap id="resultUserArticleList" type="Article">
+        <id property="id" column="aid"/>
+        <result column="title" property="title"/>
+        <result property="content" column="content"/>
+        <association property="user" javaType="User">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="password" column="password"/>
+        </association>
+    </resultMap>
+
+    <!-- User 联合文章进行查询 方法之二的配置 (多对一的方式) 方法二-->
+    <resultMap id="resultUserArticleList-2" type="Article">
+        <id property="id" column="aid" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <association property="user" javaType="User" resultMap="resultListUser" />
+    </resultMap>
+
+    <select id="getUserArticle" parameterType="int" resultMap="resultUserArticleList">
+        select tbl_user.id,tbl_user.name, tbl_user.password, article.id aid, article.title, article.content from tbl_user, article where tbl_user.id=article.userid and tbl_user.id=#{id}
+    </select>
+</mapper>
